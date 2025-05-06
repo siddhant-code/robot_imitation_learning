@@ -11,7 +11,9 @@ Running using docker:
 
 ### Running Simulation
 
-1. Open project folder,cd into ros_ws and from here open two terminals.
-2. (Skip this if not using docker) In any terminal, run command : xhost +local:docker
-3. (Skip this if not using docker) In the first terminal, run the above mentioned command to run the docker image interactively. In other terminal, run : docker ps to view running images. run command docker exec -it [container_id] bash 
+1. Make sure you are in /robot_imitation_learning folder to follow the steps ahead.
+2. To do imitation learning using behaviour cloning, use command : python3 imitation_learning_train.py
+3. To visualize final trained model,use command : python3 imitation_learning_visualize.py
+4. To train model usin GAIL, use command : python3 gail_learning_train.py
+5. To visualize final trained gail model,use command : python3 gail_learning_visualize.py
 
