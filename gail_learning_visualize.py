@@ -19,8 +19,10 @@ env = robosuite.make(
 obs_keys=[                     # observations we want to appear in batches
             "robot0_eef_pos", 
             "robot0_eef_quat", 
-            "robot0_gripper_qpos", 
-            "object-state",
+            "robot0_gripper_qpos",
+            "robot0_joint_pos",
+            "robot0_joint_vel",
+            "object-state",            
         ]
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -39,18 +41,15 @@ env.sim.reset()
 env.viewer.set_camera(0)
 observation = env.reset()
 
-class BCModel(nn.Module):
-    def __init__(self,input_size,outpit_size):
-        super(BCModel,self).__init__()
-        self.device = device
-        self.input_size = input_size
-        self.output_size = outpit_size
+class Generator(nn.Module):
+    def __init__(self, input_size, output_size):
+        super(Generator, self).__init__()
         self.layers = nn.Sequential(
-            nn.Linear(input_size,32,True,self.device),
+            nn.Linear(input_size,96,True,device=device),
             nn.Tanh(),
-            nn.Linear(32,64,True,self.device),
+            nn.Linear(96,128,True,device=device),
             nn.Tanh(),
-            nn.Linear(64,outpit_size,True,self.device)
+            nn.Linear(128,output_size,device=device)
         )
         
     def forward(self,x):
@@ -59,10 +58,11 @@ class BCModel(nn.Module):
 
 done = False 
 total_reward = 0
-model = BCModel(19,7)
+model = Generator(33,7)
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model_state_dict = torch.load("models/model_800.pt",map_location=torch.device(device))
+model_state_dict = torch.load("models/model_gail_100000.pt",map_location=torch.device(device))
 model.load_state_dict(model_state_dict)
+
 
 success = 0
 total_demos = 0
@@ -72,7 +72,7 @@ while True:
     total_reward+=reward   
     if done or int(total_reward) >= 15:  
         if int(total_reward) >= 15:
-            success+=1     
+            success+=1       
         demo_index+=1
         if demo_index == len(demos):
             break

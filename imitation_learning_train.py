@@ -78,6 +78,7 @@ criterion = nn.MSELoss()
 optimizer = optim.Adam(params=model.parameters(),lr=0.0001)
 num_epochs = 800
 
+file = open("bc_losses.txt","a")
 for epoch in range(1,num_epochs+1):
     running_loss = 0.0
     for i, data in enumerate(train_data_loader, 0):
@@ -102,5 +103,8 @@ for epoch in range(1,num_epochs+1):
                 average_loss += loss.item()
             print(f'Epoch {epoch}, Training Loss: {running_loss / len(train_data_loader)}')
             print(f'Validation loss epoch {epoch}: {average_loss/j}')
-            
-torch.save(model.state_dict(), f"models/model_{epoch}.pt")
+            file.write(f"Epoch {epoch}, Training Loss: {running_loss / len(train_data_loader)} Validation loss {epoch}: {average_loss/j} \n")
+    if epoch%100 == 0:
+        torch.save(model.state_dict(), f"models/model_{epoch}.pt")
+
+file.close()         

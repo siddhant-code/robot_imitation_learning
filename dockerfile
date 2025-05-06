@@ -6,10 +6,9 @@ RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 
 WORKDIR /robot_imitation_learning
 
-COPY ./ ./robot_imitation_learning/
+COPY ./ ./
 
-RUN cd /robot_imitation_learning/
 
-RUN pip install -r ./robot_imitation_learning/requirements.txt
+RUN pip install -r ./requirements.txt
 
 CMD ["bash"]
