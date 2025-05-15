@@ -8,7 +8,6 @@ WORKDIR /robot_imitation_learning
 
 COPY ./ ./
 
-
 RUN pip install -r ./requirements.txt
 
 CMD ["bash"]

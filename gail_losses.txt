@@ -9998,4 +9998,3 @@ Epoch 99970/100000, Disc Loss: 0.5, Gen Loss: 2.19
 Epoch 99980/100000, Disc Loss: 0.52, Gen Loss: 2.02 
 Epoch 99990/100000, Disc Loss: 0.53, Gen Loss: 1.94 
 Epoch 100000/100000, Disc Loss: 0.5, Gen Loss: 2.23 
-Epoch 10/100000, Disc Loss: 0.6934381515480751, Gen Loss: 0.692389028016911 
